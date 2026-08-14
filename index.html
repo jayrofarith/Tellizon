@@ -2200,8 +2200,15 @@ async function handleCardSubmit(event) {
   </footer>
 
   <script>
+    // This catches clicks specifically on your product Add to Cart buttons
     document.addEventListener('click', function(event) {
-      if (event.target.tagName === 'BUTTON' || event.target.closest('button')) {
+      // Check if the clicked element or its parent is the product add to cart button
+      const target = event.target;
+      const isCartBtn = target.innerText.includes('Add to Cart') || 
+                        target.value.includes('Cart') || 
+                        (target.tagName === 'BUTTON' && !target.id.includes('main-cart'));
+
+      if (isCartBtn) {
         const toast = document.getElementById('cart-toast');
         if (toast) {
           toast.style.display = 'block';

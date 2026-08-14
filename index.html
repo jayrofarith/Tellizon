@@ -2178,6 +2178,10 @@ async function handleCardSubmit(event) {
     ✓ Added to cart!
   </div>
 
+  <div id="cart-toast" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: #28a745; color: white; padding: 12px 24px; border-radius: 25px; font-size: 0.9rem; font-weight: bold; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 1000;">
+    ✓ Added to cart!
+  </div>
+
   <footer style="background-color: #000000; color: #ffffff; padding: 30px 20px; text-align: center; width: 100%; box-sizing: border-box; margin-top: 40px;">
     <div style="margin-bottom: 25px;">
       <p style="margin: 5px 0; font-size: 0.9rem;">2475 Norma Avenue</p>
@@ -2194,6 +2198,21 @@ async function handleCardSubmit(event) {
       © 2026 Telizon. All rights reserved.
     </div>
   </footer>
+
+  <script>
+    document.addEventListener('click', function(event) {
+      const btn = event.target.closest('button');
+      if (btn && (btn.innerText.includes('Add to Cart') || btn.innerHTML.includes('cart'))) {
+        const toast = document.getElementById('cart-toast');
+        if (toast) {
+          toast.style.display = 'block';
+          setTimeout(() => {
+            toast.style.display = 'none';
+          }, 2000);
+        }
+      }
+    });
+  </script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {

@@ -2201,8 +2201,7 @@ async function handleCardSubmit(event) {
 
   <script>
     document.addEventListener('click', function(event) {
-      const btn = event.target.closest('button');
-      if (btn && (btn.innerText.includes('Add to Cart') || btn.innerHTML.includes('cart'))) {
+      if (event.target.tagName === 'BUTTON' || event.target.closest('button')) {
         const toast = document.getElementById('cart-toast');
         if (toast) {
           toast.style.display = 'block';

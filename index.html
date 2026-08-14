@@ -2199,28 +2199,6 @@ async function handleCardSubmit(event) {
     </div>
   </footer>
 
-  <script>
-    // Universal trigger: catches any button click anywhere except the top/main navigation cart
-    document.addEventListener('click', function(event) {
-      const clickedEl = event.target.closest('button') || event.target.closest('a');
-      if (!clickedEl) return;
-
-      // Make sure it's not the main header cart button
-      const text = clickedEl.innerText.toLowerCase();
-      const isMainCart = clickedEl.id.includes('main') || clickedEl.className.includes('header') || (text.includes('cart') && !text.includes('add'));
-
-      if (!isMainCart && (text.includes('add') || text.includes('buy') || clickedEl.innerHTML.includes('🛒'))) {
-        const toast = document.getElementById('cart-toast');
-        if (toast) {
-          toast.style.display = 'block';
-          setTimeout(() => {
-            toast.style.display = 'none';
-          }, 2000);
-        }
-      }
-    });
-  </script>
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   let cartPrice = '0.00';

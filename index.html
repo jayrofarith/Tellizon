@@ -2174,22 +2174,26 @@ async function handleCardSubmit(event) {
     </div>
 </div>
 <!-- FOOTER -->
-<footer style="background-color: #000000; color: #ffffff; padding: 30px 20px; text-align: center; width: 100%; box-sizing: border-box; margin-top: 40px;">
-  <div style="margin-bottom: 25px;">
-    <p style="margin: 5px 0; font-size: 0.9rem;">2475 Norma Avenue</p>
-    <p style="margin: 5px 0; font-size: 0.9rem;">Huntsville, Texas 77340</p>
-    <p style="margin: 5px 0; font-size: 0.9rem;">(616)-431-0218</p>
+<div id="cart-toast" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: #28a745; color: white; padding: 12px 24px; border-radius: 25px; font-size: 0.9rem; font-weight: bold; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 1000;">
+    ✓ Added to cart!
   </div>
-  
-  <div style="margin-bottom: 25px;">
-    <h4 style="margin: 0 0 10px 0; font-size: 1rem; font-weight: bold;">Return & Refund Policy</h4>
-    <p style="margin: 0; font-size: 0.85rem; line-height: 1.4; color: #cccccc;">Refunds can be requested within 7 days of your transaction. Contact support to initiate a return.</p>
-  </div>
-  
-  <div style="border-top: 1px solid #333333; padding-top: 15px; font-size: 0.75rem; color: #888888;">
-    © 2026 Telizon. All rights reserved.
-  </div>
-</footer>
+
+  <footer style="background-color: #000000; color: #ffffff; padding: 30px 20px; text-align: center; width: 100%; box-sizing: border-box; margin-top: 40px;">
+    <div style="margin-bottom: 25px;">
+      <p style="margin: 5px 0; font-size: 0.9rem;">2475 Norma Avenue</p>
+      <p style="margin: 5px 0; font-size: 0.9rem;">Huntsville, Texas 77340</p>
+      <p style="margin: 5px 0; font-size: 0.9rem;">(616)-431-0218</p>
+    </div>
+    
+    <div style="margin-bottom: 25px;">
+      <h4 style="margin: 0 0 10px 0; font-size: 1rem; font-weight: bold;">Return & Refund Policy</h4>
+      <p style="margin: 0; font-size: 0.85rem; line-height: 1.4; color: #cccccc;">Refunds can be requested within 7 days of your transaction. Contact support to initiate a return.</p>
+    </div>
+    
+    <div style="border-top: 1px solid #333333; padding-top: 15px; font-size: 0.75rem; color: #888888;">
+      © 2026 Telizon. All rights reserved.
+    </div>
+  </footer>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {

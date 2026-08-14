@@ -2200,15 +2200,17 @@ async function handleCardSubmit(event) {
   </footer>
 
   <script>
-    // This catches clicks specifically on your product Add to Cart buttons
     document.addEventListener('click', function(event) {
-      // Check if the clicked element or its parent is the product add to cart button
-      const target = event.target;
-      const isCartBtn = target.innerText.includes('Add to Cart') || 
-                        target.value.includes('Cart') || 
-                        (target.tagName === 'BUTTON' && !target.id.includes('main-cart'));
+      // Find if the click is inside a product card or a button with product cart action
+      const button = event.target.closest('button');
+      if (!button) return;
 
-      if (isCartBtn) {
+      // Check if it's the main cart/checkout button so we ignore it
+      const isMainCart = button.id.toLowerCase().includes('cart') || 
+                         button.className.toLowerCase().includes('cart') && !button.closest('.product');
+      
+      // If it's a product add to cart button (and NOT the main cart button)
+      if (!isMainCart) {
         const toast = document.getElementById('cart-toast');
         if (toast) {
           toast.style.display = 'block';
